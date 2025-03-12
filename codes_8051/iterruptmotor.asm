@@ -5,7 +5,7 @@ org    0003h
 jmp    isrext0	;Desligar o motor
 
 org    0013h	
-jmp    isrext1	;Revers„o do sentido de rotaÁ„o
+jmp    isrext1	;Revers√£o do sentido de rota√ß√£o
 
 isrext0:
         rl      a
@@ -18,17 +18,17 @@ isrext1:
         reti
 
 inicio:
-		jb		P2.3, inicio	;Aguarda  o operador acionar o bot„o para ligar o motor
+	jb		P2.3, inicio	;Aguarda  o operador acionar o bot√£o para ligar o motor
         jnb		P2.3, $
-		mov     a, #10000101b
+	mov     a, #10000101b
         mov     ie, a
         mov     a, #00h
         mov     ip, a
         mov     a, #00000101b
         mov     tcon, a
-		mov     a, #00h
-		cpl P1.0
-		cpl P1.2
+	mov     a, #00h
+	cpl P1.0
+	cpl P1.2
 		
         jmp    $
 
