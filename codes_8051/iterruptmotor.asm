@@ -18,8 +18,8 @@ isrext1:
         reti
 
 inicio:
-	jb		P2.3, inicio	;Aguarda  o operador acionar o botão para ligar o motor
-        jnb		P2.3, $
+	jb	P2.3, inicio	;Aguarda  o operador acionar o botão para ligar o motor
+        jnb	P2.3, $
 	mov     a, #10000101b
         mov     ie, a
         mov     a, #00h
