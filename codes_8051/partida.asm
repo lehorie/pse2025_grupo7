@@ -5,7 +5,7 @@ org    0003h
 jmp    isrext0	;Desligar o motor
 
 org    0013h	
-jmp    isrext1	;Reversão do sentido de rotação
+jmp    isrext1	;Inverter o sentido de rotação
 
 isrext0:
 		setb P1.0
@@ -29,9 +29,8 @@ partida_inicial:
 		clr P1.2
 		clr P1.0
 		jnb P2.2, L ;primeiro bit low
-		jb P2.2, H ;primeiro bit high
+		jb P2.2, H
 
-;Identificando o valor de entrada p2.2 p2.1 p2.0 do usuário e aplicando o respectivo intervalo
 L:
 		jnb P2.1, LL
 		jb P2.1, LH
@@ -52,56 +51,58 @@ HL:
 HH:
 		jnb P2.0, HHL
 		jb P2.0, HHH
+
 LLL:
-		;ESPERA t1
-		setb P1.2
-		;delay de 100ms
-		clr	P1.3
-		jmp loop
-HLL:
-		;ESPERA t2
-		setb P1.2
-		;delay de 100ms
-		clr	P1.3
-		jmp loop
-
-LHL:
-		;ESPERA t3
-		setb P1.2
-		;delay de 100ms
-		clr	P1.3
-		jmp loop
-
-HHL:
-		;ESPERA t4
+		;ESPERA t0
 		setb P1.2
 		;delay de 100ms
 		clr	P1.3
 		jmp loop
 
 LLH:
-		;ESPERA t5
+		;ESPERA t1
+		setb P1.2
+		;delay de 100ms
+		clr	P1.3
+		jmp loop
+
+LHL:
+		;ESPERA t2
+		setb P1.2
+		;delay de 100ms
+		clr	P1.3
+		jmp loop
+
+LHH:
+		;ESPERA t3
+		setb P1.2
+		;delay de 100ms
+		clr	P1.3
+		jmp loop
+
+HLL:
+		;ESPERA t4
 		setb P1.2
 		;delay de 100ms
 		clr	P1.3
 		jmp loop
 
 HLH:
-		;ESPERA t6
+		;ESPERA t5
 		setb P1.2
 		;delay de 100ms
 		clr	P1.3
 		jmp loop
 	
-LHH:
-		;ESPERA t7
+HHL:
+		;ESPERA t6
 		setb P1.2
 		;delay de 100ms
 		clr	P1.3
 		jmp loop
 
 HHH:
-		;ESPERA t8
+		;ESPERA t7
 		nop
 		nop
 		nop
@@ -112,9 +113,6 @@ HHH:
 
 loop:
 		jnb P2.5, desliga_motor
-		jmp check_inversao
-
-check_inversao:
 		jnb P2.4, inverte_sentido
 		jmp loop
 
