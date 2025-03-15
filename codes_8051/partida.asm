@@ -1,3 +1,4 @@
+; melhorias: usar sjmp quandofor possível
 org    0000h
 jmp    partida_inicial
 
