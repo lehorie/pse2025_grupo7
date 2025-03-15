@@ -8,15 +8,15 @@ org    0013h
 jmp    isrext1	;Reversão do sentido de rotação
 
 isrext0:
-		setb P1.0
-		setb P1.1
-		setb P1.2
-		setb P1.3
+		setb 	P1.0
+		setb 	P1.1
+		setb 	P1.2
+		setb 	P1.3
 		reti
 
 isrext1:
-		cpl P1.0
-		cpl P1.1
+		cpl 	P1.0
+		cpl 	P1.1
 		reti
 
 partida_inicial:
