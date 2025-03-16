@@ -16,8 +16,19 @@ isrext0:
 		reti
 
 isrext1:
-		cpl P1.0
-		cpl P1.1
+		mov R0, #06h
+		acall delayN500ms; ESPERA 3 S   
+		setb P1.0
+		setb P1.1
+		setb P1.2
+		setb P1.3
+		nop
+		clr P1.2
+		mov C, ACC.0
+		mov P1.1, C		
+		mov C, ACC.1		
+		mov P1.0, C
+		jmp tempo_comuta
 		reti
 
 partida_inicial:
@@ -30,6 +41,7 @@ partida_inicial:
 		setb P2.5
 		clr P1.2
 		clr P1.0
+tempo_comuta:
 		jnb P2.2, L ;primeiro bit low
 		jb P2.2, H
 
@@ -134,10 +146,11 @@ desliga_motor:
 
 inverte_sentido:
 		jnb P2.4, inverte_sentido ;Aguarda o pulso de subida
-		clr P3.3 ;ativa interrupção 1 
-		mov R0, #06h
-		acall delayN500ms; ESPERA 3 S       
-		setb P3.3
+		mov C, P1.0
+		mov ACC.0, C		
+		mov C, P1.1		
+		mov ACC.1, C
+		jmp isrext1
 		jmp loop
 
 delayN500ms: ;Nx500ms
