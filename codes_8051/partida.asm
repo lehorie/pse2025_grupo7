@@ -22,7 +22,8 @@ isrext1:
 
 partida_inicial:
 		jb P2.3, partida_inicial	;Aguarda  o operador acionar o botão para ligar o motor
-        	jnb P2.3, $
+        fica1:
+			jnb P2.3, fica1
 		mov ie, #10000101b
         	mov tcon, #00000101b
 		setb P2.4
@@ -49,66 +50,74 @@ HL:
 		jnb P2.0, HLL
 		jb P2.0, HLH
 
-HH:
+HH:		
 		jnb P2.0, HHL
 		jb P2.0, HHH
 
 LLL:
-		;ESPERA t0
+		mov R0, #02h
+		acall	delayN500ms; ESPERA t0
 		setb P1.2
-		;delay de 100ms
+		acall delay100ms;delay de 100ms
 		clr	P1.3
 		jmp loop
 
 LLH:
-		;ESPERA t1
+		mov R0, #04h
+		acall	delayN500ms; ESPERA t1
 		setb P1.2
-		;delay de 100ms
+		acall delay100ms;delay de 100ms
 		clr	P1.3
 		jmp loop
 
 LHL:
-		;ESPERA t2
+		mov R0, #06h
+		acall	delayN500ms;ESPERA t2
 		setb P1.2
-		;delay de 100ms
+		acall delay100ms;delay de 100ms
 		clr	P1.3
 		jmp loop
 
 LHH:
-		;ESPERA t3
+		mov R0, #08h
+		acall	delayN500ms;ESPERA t3
 		setb P1.2
-		;delay de 100ms
+		acall delay100ms;delay de 100ms
 		clr	P1.3
 		jmp loop
 
 HLL:
-		;ESPERA t4
+		mov R0, #0Ah
+		acall	delayN500ms;ESPERA t4
 		setb P1.2
-		;delay de 100ms
+		acall delay100ms;delay de 100ms
 		clr	P1.3
 		jmp loop
 
 HLH:
-		;ESPERA t5
+		mov R0, #0Ch
+		acall	delayN500ms;ESPERA t5
 		setb P1.2
-		;delay de 100ms
+		acall delay100ms;delay de 100ms
 		clr	P1.3
 		jmp loop
 	
 HHL:
-		;ESPERA t6
+		mov R0, #0Eh
+		acall	delayN500ms;ESPERA t6
 		setb P1.2
-		;delay de 100ms
+		acall delay100ms;delay de 100ms
 		clr	P1.3
 		jmp loop
 
 HHH:
-		;ESPERA t7
+		mov R0, #010h
+		acall	delayN500ms;ESPERA t7
 		nop
 		nop
 		nop
 		setb P1.2
-		;delay de 100ms
+		acall delay100ms;delay de 100ms
 		clr	P1.3
 		jmp loop
 
@@ -126,8 +135,75 @@ desliga_motor:
 inverte_sentido:
 		jnb P2.4, inverte_sentido ;Aguarda o pulso de subida
 		clr P3.3 ;ativa interrupção 1 
-		; ESPERA 3 S       
+		mov R0, #06h
+		acall delayN500ms; ESPERA 3 S       
 		setb P3.3
 		jmp loop
 
-        end
+delayN500ms: ;Nx500ms
+	; N deve ser salvo em R0
+	jmp aux0
+
+aux0:                       ; daqui até djnz R1, aux1 gera aproximadamente 500ms de delay
+	mov R1, #0FAh
+
+aux1:
+	mov	R2, #0F9h
+	nop
+	nop
+	nop
+	nop
+	nop
+
+aux2:
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+
+	djnz R2, aux2
+	djnz R1, aux1           ; de aux0 até aqui gera aproximadamente 500ms de delay
+	djnz R0, aux0
+	
+	ret
+
+
+delay100ms: ;Nx100ms
+	mov R3, #01h
+	jmp aux3
+
+aux3:                       ; daqui até djnz R1, aux1 gera aproximadamente 500ms de delay
+	mov R1, #032h
+
+aux4:
+	mov	R2, #0F9h
+	nop
+	nop
+	nop
+	nop
+	nop
+
+aux5:
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+
+	djnz R2, aux5
+	djnz R1, aux4           ; de aux0 até aqui gera aproximadamente 500ms de delay
+	djnz R3, aux3
+	
+	ret
+
+end
+
+
+
+
+
+
+
