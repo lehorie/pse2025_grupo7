@@ -12,16 +12,17 @@ isrext0:
 		setb P1.1
 		setb P1.2
 		setb P1.3
+		mov R0, #06h
+		acall delayN500ms; ESPERA 3 S
 		reti
 
-isrext1:
-		mov R0, #06h
-		acall delayN500ms; ESPERA 3 S   
+isrext1: 
 		setb P1.0
 		setb P1.1
 		setb P1.2
 		setb P1.3
-		nop
+		mov R0, #06h
+		acall delayN500ms; ESPERA 3 S
 		clr P1.2
 		mov C, ACC.0
 		mov P1.1, C		
